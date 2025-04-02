@@ -8,9 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "pages:build": "npx @cloudflare/next-on-pages --experimental-minify",
+    "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "ESLINT_DISABLE=true NODE_ENV=production next build && npx @cloudflare/next-on-pages && wrangler pages deploy .vercel/output/static"
+    "deploy": "npm run pages:build && wrangler pages deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -41,7 +41,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.10",
+    "@cloudflare/next-on-pages": "^1.13.12",
     "@eslint/eslintrc": "^3.2.0",
     "@tailwindcss/postcss": "^4.0.2",
     "@tailwindcss/typography": "^0.5.16",
