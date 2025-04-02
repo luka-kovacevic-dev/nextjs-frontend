@@ -1,6 +1,6 @@
 name = "nextjs-default-theme"
 main = "_worker.js"
-compatibility_date = "2024-03-31"
+compatibility_date = "2025-04-01"
 compatibility_flags = [ "nodejs_compat" ]
 
 [site]
@@ -14,7 +14,7 @@ pages_build_output_dir = ".vercel/output/static"
 
 [env.production]
 workers_dev = false
-route = { pattern = "*", zone_name = "devx.jaa.nz" }
+route = { pattern = "*", zone_name = "theme.deployfordev.com" }
 compatibility_flags = [ "nodejs_compat" ]
 
 [placement]
