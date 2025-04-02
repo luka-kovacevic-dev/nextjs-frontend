@@ -1,0 +1,188 @@
+---
+description: 
+globs: src/components/**/*.tsx
+alwaysApply: false
+---
+# Component Patterns
+
+## Overview
+
+This project follows consistent component patterns based on Next.js 15 and React 19 best practices. Components are organized by their purpose and reusability.
+
+## Component Types
+
+### UI Components (`src/components/ui/`)
+
+- Base UI components leveraging shadcn/ui
+- Highly reusable across the entire application
+- Customized with Tailwind CSS
+- Follow React's forwardRef pattern for ref forwarding
+- Use class-variance-authority (cva) for variant management
+
+Example (Button):
+
+```tsx
+const buttonVariants = cva(
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold...',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
+        // other variants...
+      },
+      size: {
+        default: 'h-9 px-4 py-2',
+        // other sizes...
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  },
+);
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+
+export { Button, buttonVariants };
+```
+
+### Section Components (`src/components/sections/`)
+
+- Larger page-specific content blocks
+- Compose multiple UI components together
+- Implement specific page functionality
+- Often contain their own data structures and logic
+
+Example (Hero):
+
+```tsx
+export default function Hero() {
+  return (
+    <section className="py-28 lg:py-32 lg:pt-44">
+      <div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row lg:gap-20">
+        {/* Content structure */}
+        <div className="flex-1">
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:whitespace-nowrap md:text-5xl lg:text-6xl">
+            Mainline your product.
+          </h1>
+          {/* More content */}
+        </div>
+
+        {/* Feature list */}
+        <div className="relative flex flex-1 flex-col justify-center space-y-5 max-lg:pt-10 lg:ps-10">
+          {/* Features mapping */}
+          {features.map((feature) => {
+            const Icon = feature.icon;
+            return (
+              <div key={feature.title} className="flex gap-2.5 lg:gap-5">
+                {/* Feature content */}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+### Layout Components (`src/components/layout/`)
+
+- Global layout elements that appear on multiple pages
+- Often use client-side interactivity with `'use client'` directive
+- Manage their own state for interactive elements
+- Handle responsive design patterns
+
+Example (Navbar):
+
+```tsx
+'use client';
+
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  return (
+    <header className="bg-background/70 absolute left-1/2 top-5 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-full border backdrop-blur-md lg:top-12">
+      {/* Navigation content */}
+    </header>
+  );
+};
+
+export default Navbar;
+```
+
+## Client vs. Server Components
+
+- **Server Components** (default in Next.js 15):
+
+  - No `'use client'` directive
+  - Cannot use React hooks (useState, useEffect, etc.)
+  - Cannot access browser APIs
+  - Better performance for content that doesn't need interactivity
+
+- **Client Components**:
+  - Marked with `'use client'` directive at the top of the file
+  - Can use React hooks and browser APIs
+  - Used for interactive elements like navigation, forms, etc.
+  - More network payload than server components
+
+## Component Naming Conventions
+
+- **UI Components**: PascalCase, named after their function (Button, Card, etc.)
+- **Section Components**: PascalCase, descriptive of their content (Hero, Features, etc.)
+- **Layout Components**: PascalCase, descriptive of their position/function (Navbar, Footer, etc.)
+
+## Props Patterns
+
+- TypeScript interfaces used for prop type definitions
+- Props destructured in component parameters
+- Default values specified when appropriate
+- `className` prop commonly used for style overrides
+- Children passed via `children` prop or specific slot props
+
+Example:
+
+```tsx
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    // Component implementation
+  },
+);
+```
+
+## Styling Patterns
+
+- Tailwind CSS used for component styling
+- `cn()` utility from `src/lib/utils.ts` used to combine classes
+- Responsive design with Tailwind's breakpoint prefixes (sm:, md:, lg:, etc.)
+- Class grouping following Tailwind conventions
+
+```tsx
+// Example of combining classes with the cn utility
+className={cn(
+  "base classes",
+  variant === "primary" && "variant-specific classes",
+  className
+)}
+```

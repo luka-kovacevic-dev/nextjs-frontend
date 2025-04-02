@@ -1,0 +1,268 @@
+---
+description: 
+globs: src/app/globals.css, src/components/**/*.tsx
+alwaysApply: false
+---
+# Styling and Theming
+
+## Overview
+
+This project uses Tailwind CSS 4 with a custom configuration for styling. It follows a consistent theming approach with design tokens, dark mode support, and responsive design patterns.
+
+## Tailwind CSS Setup
+
+- **Version**: Tailwind CSS 4
+- **Main Configuration**: Found in `src/app/globals.css`
+- **PostCSS Config**: `postcss.config.mjs`
+- **Additional Plugins**:
+  - `@nobie-org/tailwindcss-animate` for animations
+  - `@tailwindcss/typography` for prose styling
+  - `prettier-plugin-tailwindcss` for class sorting
+
+## Design Tokens
+
+The project defines custom design tokens in `src/app/globals.css`:
+
+```css
+@layer base {
+  :root {
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 240 10% 4%; /* #09090B */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 240 10% 4%; /* #09090B */
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 240 10% 4%; /* #09090B */
+    --primary: 0 0% 0%; /* #000 */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+    --secondary: 0 0% 97%; /* #F8F8F8 */
+    --secondary-foreground: 0 0% 9%; /* #171717 */
+    --muted: 0 0% 97%; /* #F8F8F8 */
+    --muted-foreground: 0 0% 49%; /* #737373 */
+    --accent: 0 0% 97%; /* #F8F8F8 */
+    --accent-foreground: 0 0% 9%; /* #171717 */
+    --destructive: 0 84.2% 60.2%; /* #EF4444 */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF */
+    --border: 0 0% 89.8%; /* #E5E5E5 */
+    --input: 0 0% 89.8%; /* #E5E5E5 */
+    --ring: 240 10% 4%; /* #09090B */
+    --cream: 43 52% 94%; /* #F8F4E7 */
+    --chart-1: 12 76% 61%; /* #E65C41 */
+    --chart-2: 173 58% 39%; /* #2A9D8F */
+    --chart-3: 197 37% 24%; /* #264653 */
+    --chart-4: 43 74% 66%; /* #E9C46A */
+    --chart-5: 27 87% 67%; /* #F4A261 */
+  }
+
+  .dark {
+    --background: 240 10% 4%; /* #09090B */
+    --foreground: 0 0% 100%; /* #FFFFFF */
+    /* Other dark theme values */
+  }
+}
+```
+
+## Dark Mode
+
+The project implements dark mode using `next-themes`:
+
+```tsx
+// src/components/theme-provider.tsx
+'use client';
+
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { type ThemeProviderProps } from 'next-themes/dist/types';
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+}
+```
+
+Implementation in the root layout:
+
+```tsx
+// src/app/layout.tsx
+<ThemeProvider
+  attribute="class"
+  defaultTheme="light"
+  enableSystem
+  disableTransitionOnChange
+>
+  <Navbar />
+  <main className="">{children}</main>
+  <Footer />
+</ThemeProvider>
+```
+
+A theme toggle component is available:
+
+```tsx
+// src/components/theme-toggle.tsx
+'use client';
+
+export function ThemeToggle() {
+  const { setTheme, theme } = useTheme();
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+
+  return (
+    <button
+      onClick={toggleTheme}
+      className="bg-background hover:bg-accent focus:bg-accent text-muted-foreground relative flex size-9 items-center justify-center rounded-lg border transition-colors"
+    >
+      <span className="sr-only">Toggle theme</span>
+      {/* Icons for light/dark mode */}
+    </button>
+  );
+}
+```
+
+## Typography
+
+The project uses multiple font families:
+
+```tsx
+// src/app/layout.tsx
+const dmSans = localFont({
+  src: [
+    {
+      path: '../../fonts/dm-sans/DMSans-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    // Other font variations
+  ],
+  variable: '--font-dm-sans',
+  display: 'swap',
+});
+
+const dmMono = DM_Mono({
+  weight: ['400', '500'],
+  subsets: ['latin'],
+  variable: '--font-dm-mono',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+```
+
+Font variables are applied to the body:
+
+```tsx
+<body
+  className={`h-screen ${dmSans.variable} ${dmMono.variable} ${inter.variable} antialiased`}
+>
+```
+
+And font classes are available in CSS:
+
+```css
+@layer utilities {
+  body {
+    font-family: var(--font-inter), sans-serif;
+  }
+  .font-sans {
+    font-family: var(--font-dm-sans), sans-serif;
+  }
+  h1,
+  h2 {
+    font-family: var(--font-dm-sans), sans-serif;
+    /* Font feature settings */
+  }
+  .font-mono {
+    font-family: var(--font-dm-mono), monospace;
+  }
+}
+```
+
+## Utility Functions
+
+The project uses a `cn()` utility function for combining Tailwind classes:
+
+```tsx
+// src/lib/utils.ts
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+This function is used throughout the codebase to conditionally apply classes:
+
+```tsx
+className={cn(
+  "default classes",
+  condition && "conditional classes",
+  className  // Allow overrides
+)}
+```
+
+## Responsive Design
+
+The project uses Tailwind's responsive prefixes:
+
+- `sm:` - Small screens (640px+)
+- `md:` - Medium screens (768px+)
+- `lg:` - Large screens (1024px+)
+
+Example from the Hero component:
+
+```tsx
+<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl">
+  Mainline your product.
+</h1>
+```
+
+The project also uses custom container styles:
+
+```css
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1220px;
+  }
+}
+```
+
+## Component Styling
+
+Component styles follow these patterns:
+
+1. **Base styles**: Default appearance
+2. **Variant styles**: Different visual states (primary, secondary, etc.)
+3. **Size styles**: Different size options (sm, md, lg, etc.)
+4. **State styles**: Hover, focus, active, disabled states
+
+Example from the Button component:
+
+```tsx
+const buttonVariants = cva(
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
+        destructive:
+          'bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90',
+        // Other variants
+      },
+      size: {
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-lg px-3 text-xs',
+        // Other sizes
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  },
+);
+```

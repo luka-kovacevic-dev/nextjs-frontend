@@ -1,0 +1,257 @@
+---
+description: 
+globs: **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# Coding Style and Conventions
+
+## Overview
+
+This project follows modern React and TypeScript best practices with a focus on maintainability and code quality. It uses ESLint and Prettier for code formatting and linting.
+
+## TypeScript Usage
+
+- TypeScript is used throughout the codebase
+- Explicit type definitions for component props, function parameters, and return types
+- Interfaces preferred over type aliases for object shapes
+- Type imports using the `import type` syntax
+
+Example:
+
+```tsx
+import type { ThemeProviderProps } from 'next-themes/dist/types';
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+```
+
+## Naming Conventions
+
+- **Files/Components**: PascalCase (e.g., `Button.tsx`, `Hero.tsx`)
+- **Functions**: camelCase (e.g., `onClick`, `toggleTheme`)
+- **Variables**: camelCase (e.g., `isMenuOpen`, `buttonVariants`)
+- **Interfaces**: PascalCase with descriptive names (e.g., `ButtonProps`)
+- **Constants**: UPPERCASE_WITH_UNDERSCORES for true constants, otherwise camelCase
+- **CSS Classes**: kebab-case in strings, camelCase when referenced in JavaScript
+
+## Code Structure
+
+### Component Structure
+
+```tsx
+// 1. Imports (grouped and ordered)
+import * as React from 'react';
+import { useState } from 'react';
+import NextLink from 'next/link';
+// Third-party imports
+import { cva, type VariantProps } from 'class-variance-authority';
+// Local imports
+import { cn } from '@/lib/utils';
+
+// 2. Type definitions
+interface ComponentProps {
+  // ...
+}
+
+// 3. Constants (if any)
+const ITEMS = [
+  // ...
+];
+
+// 4. Component definition
+export function Component({ prop1, prop2 }: ComponentProps) {
+  // 5. Hooks
+  const [state, setState] = useState(false);
+
+  // 6. Derived values / calculations
+  const derivedValue = useMemo(() => {
+    // calculations...
+  }, [dependencies]);
+
+  // 7. Event handlers
+  const handleClick = () => {
+    // ...
+  };
+
+  // 8. Return JSX
+  return <div>{/* JSX content */}</div>;
+}
+```
+
+### Import Order
+
+1. React/Next.js imports
+2. Third-party library imports
+3. Local component/utility imports
+4. Type imports
+
+Example:
+
+```tsx
+// React/Next.js imports
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+// Third-party imports
+import { ChevronRight } from 'lucide-react';
+
+// Local imports
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+```
+
+## Formatting Rules
+
+The project uses Prettier for code formatting with the following configuration:
+
+```json
+{
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "semi": true,
+  "useTabs": false,
+  "singleQuote": true,
+  "printWidth": 80,
+  "jsxSingleQuote": false,
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
+```
+
+Key formatting rules:
+
+- 2 spaces for indentation
+- Single quotes for strings
+- Semicolons at the end of statements
+- Maximum line length of 80 characters
+- Trailing commas in multi-line object literals and arrays
+- Double quotes for JSX attributes
+- Automatic Tailwind class sorting
+
+## Linting Rules
+
+The project uses ESLint with multiple plugins:
+
+```javascript
+// eslint.config.mjs
+export default [
+  {
+    extends: [
+      'next/core-web-vitals',
+      'plugin:@typescript-eslint/recommended',
+      'plugin:import/recommended',
+      'plugin:import/typescript',
+      'plugin:prettier/recommended',
+      'plugin:jsx-a11y/recommended',
+    ],
+    // Other config...
+  },
+];
+```
+
+Key linting rules:
+
+- React hooks rules (exhaustive dependencies)
+- TypeScript best practices
+- Import sorting and organization
+- Accessibility (a11y) requirements
+- Prettier integration
+
+## Accessibility Practices
+
+- Semantic HTML elements (`<button>`, `<nav>`, etc.)
+- ARIA attributes for complex components
+- Focus management for interactive elements
+- Screen reader text using `sr-only` class
+
+Example:
+
+```tsx
+<button
+  onClick={toggleTheme}
+  className="bg-background hover:bg-accent focus:bg-accent text-muted-foreground relative flex size-9 items-center justify-center rounded-lg border transition-colors"
+>
+  <span className="sr-only">Toggle theme</span>
+  {/* Icon */}
+</button>
+```
+
+## Comments and Documentation
+
+- JSDoc style comments for functions and components
+- Inline comments for complex logic
+- TODO/FIXME comments for future improvements
+- Self-documenting code (clear variable names, function names, etc.)
+
+## React Patterns
+
+### Functional Components
+
+All components are functional components using hooks:
+
+```tsx
+export const Component = ({ prop1, prop2 }: ComponentProps) => {
+  // Component logic
+  return (
+    // JSX
+  );
+};
+```
+
+### Component Exports
+
+Components are exported either as:
+
+- Default exports (for page components or major section components)
+- Named exports (for reusable UI components)
+
+### React Hooks Usage
+
+- `useState` for local state management
+- `useEffect` for side effects
+- `useMemo` for expensive calculations
+- `useCallback` for memoized functions
+- `usePathname` from Next.js for routing information
+
+Example:
+
+```tsx
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Component logic
+};
+```
+
+### Conditional Rendering
+
+```tsx
+{
+  condition && <Component />;
+}
+```
+
+Or with ternary operators:
+
+```tsx
+{
+  condition ? <ComponentA /> : <ComponentB />;
+}
+```
+
+### Class Conditional Rendering
+
+Using the `cn()` utility:
+
+```tsx
+className={cn(
+  "base-class",
+  isActive && "active-class",
+  pathname === link.href && "text-muted-foreground"
+)}
+```

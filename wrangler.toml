@@ -1,0 +1,21 @@
+name = "nextjs-default-theme"
+main = "_worker.js"
+compatibility_date = "2024-03-31"
+compatibility_flags = [ "nodejs_compat" ]
+
+[site]
+bucket = ".vercel/output/static"
+
+[build]
+command = "npm run deploy"
+
+# Add this configuration for Cloudflare Pages
+pages_build_output_dir = ".vercel/output/static"
+
+[env.production]
+workers_dev = false
+route = { pattern = "*", zone_name = "devx.jaa.nz" }
+compatibility_flags = [ "nodejs_compat" ]
+
+[placement]
+mode = "smart"

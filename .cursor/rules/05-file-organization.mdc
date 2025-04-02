@@ -1,0 +1,229 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# File Organization & Naming Conventions
+
+## Overview
+
+This project follows Next.js 15 App Router conventions and structured organization patterns. Files are categorized by their purpose and location in the application architecture.
+
+## Directory Structure
+
+```
+├── src/
+│   ├── app/                       # Next.js 15 App Router pages
+│   │   ├── [route]/               # Route directories
+│   │   │   └── page.tsx           # Page component for route
+│   │   ├── globals.css            # Global styles
+│   │   ├── layout.tsx             # Root layout component
+│   │   └── page.tsx               # Home page component
+│   ├── components/                # React components
+│   │   ├── ui/                    # UI components from shadcn/ui
+│   │   ├── sections/              # Page section components
+│   │   ├── layout/                # Layout components
+│   │   └── [other].tsx            # Other global components
+│   └── lib/                       # Utility functions
+├── public/                        # Static assets
+├── fonts/                         # Local font files
+├── _worker.js                   # Cloudflare Worker entry point
+├── middleware.ts                # Edge middleware for URL handling
+├── wrangler.toml                # Cloudflare Pages configuration
+```
+
+## File Naming Conventions
+
+### Pages and Layouts
+
+### Special Files
+
+- `sitemap.ts` - Generates sitemap.xml at the root level
+- `robots.ts` - Generates robots.txt at the root level
+- `manifest.ts` - Generates Web App manifest at the root level
+- `middleware.ts` - Edge middleware for URL normalization
+- `_worker.js` - Cloudflare Worker script for routing enhancement
+
+Following Next.js 15 App Router conventions:
+
+- `page.tsx` - The main component for a route
+- `layout.tsx` - Layout wrapper for a route
+- `loading.tsx` - Loading state for a route
+- `error.tsx` - Error state for a route
+- `not-found.tsx` - 404 page
+
+### Components
+
+- **UI Components**: Named after their function with PascalCase (e.g., `Button.tsx`, `Card.tsx`)
+- **Section Components**: Named descriptively with PascalCase (e.g., `Hero.tsx`, `Features.tsx`)
+- **Layout Components**: Named after their position/role with PascalCase (e.g., `Navbar.tsx`, `Footer.tsx`)
+- **Utility Components**: Named descriptively with PascalCase (e.g., `ThemeToggle.tsx`)
+
+### Utility Files
+
+- Kebab-case for utility files (e.g., `image-loader.ts`)
+- Simple descriptive names (e.g., `utils.ts`)
+
+## Routing Structure
+
+The project follows Next.js 15 App Router conventions for routing:
+
+```
+src/app/
+├── page.tsx                # Home route: /
+├── about/
+│   └── page.tsx            # About route: /about
+├── pricing/
+│   └── page.tsx            # Pricing route: /pricing
+├── contact/
+│   └── page.tsx            # Contact route: /contact
+├── login/
+│   └── page.tsx            # Login route: /login
+└── signup/
+    └── page.tsx            # Signup route: /signup
+```
+
+## Component Organization
+
+Components are organized by their purpose and scope:
+
+### UI Components (`src/components/ui/`)
+
+Basic UI building blocks, primarily from shadcn/ui:
+
+- `accordion.tsx`
+- `button.tsx`
+- `card.tsx`
+- `checkbox.tsx`
+- `input.tsx`
+- etc.
+
+### Section Components (`src/components/sections/`)
+
+Larger content blocks that form complete page sections:
+
+- `hero.tsx`
+- `features.tsx`
+- `pricing.tsx`
+- `testimonials.tsx`
+- etc.
+
+### Layout Components (`src/components/layout/`)
+
+Components that control the overall page layout:
+
+- `navbar.tsx`
+- `footer.tsx`
+- `cream-container.tsx`
+- etc.
+
+### Other Global Components (`src/components/`)
+
+Utility components used throughout the application:
+
+- `theme-toggle.tsx`
+- `theme-provider.tsx`
+- `dashed-line.tsx`
+- etc.
+
+## Import Paths
+
+The project uses path aliases for cleaner imports:
+
+- `@/components/*` - Import components
+- `@/lib/*` - Import utility functions
+
+Example:
+
+```tsx
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+```
+
+## Asset Organization
+
+Static assets are organized in the `public` directory:
+
+- `/logo.svg` - Main logo
+- `/favicon/` - Favicon files
+- `/hero.webp` - Hero section image
+- etc.
+
+Font files are organized in the `fonts` directory, with subdirectories for each font family:
+
+```
+fonts/
+├── dm-sans/
+│   ├── DMSans-Regular.ttf
+│   ├── DMSans-Medium.ttf
+│   └── DMSans-Bold.ttf
+└── [other-fonts]/
+```
+
+## Cloudflare Deployment Files
+
+- `wrangler.toml` - Contains Cloudflare Pages configuration
+- `_worker.js` - Custom worker script for enhanced routing
+- `middleware.ts` - URL normalization and redirects
+
+## Configuration Files
+
+Configuration files are at the root of the project:
+
+- `tsconfig.json` - TypeScript configuration
+- `next.config.ts` - Next.js configuration
+- `eslint.config.mjs` - ESLint configuration
+- `.prettierrc` - Prettier configuration
+- `components.json` - shadcn/ui components configuration
+- `wrangler.toml` - Cloudflare Pages configuration
+- `next.config.ts` - Next.js configuration with Cloudflare optimizations
+
+## Modular CSS
+
+The project uses Tailwind CSS with modular organization:
+
+- Global styles in `src/app/globals.css`
+- Component-specific styles using Tailwind classes within components
+- Custom variables defined in `globals.css`
+- No CSS modules or separate CSS files
+
+## Shared Pattern Examples
+
+### Page Component
+
+```tsx
+// src/app/route/page.tsx
+export default function RoutePage() {
+  return (
+    <>
+      <SectionComponent />
+      <OtherSectionComponent />
+    </>
+  );
+}
+```
+
+### Layout Component
+
+```tsx
+// src/components/layout/layout-component.tsx
+export function LayoutComponent({ children }: { children: React.ReactNode }) {
+  return <div className="layout-styles">{children}</div>;
+}
+```
+
+### UI Component
+
+```tsx
+// src/components/ui/ui-component.tsx
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+
+export interface ComponentProps extends React.HTMLAttributes<HTMLDivElement> {
+  // Props
+}
+
+export function Component({ className, ...props }: ComponentProps) {
+  return <div className={cn('default-classes', className)} {...props} />;
+}
+```
