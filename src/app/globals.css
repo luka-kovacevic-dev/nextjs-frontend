@@ -10,30 +10,30 @@
   --font-mono: 'Courier New', Courier, monospace;
   --font-inter: var(--font-jsans);
 
-    /* Custom font weights */
-    --font-weight-thin: 500;
-    --font-weight-extralight: 500;
-    --font-weight-light: 500;
-    --font-weight-normal: 500;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 700;
-    --font-weight-bold: 700;
-    --font-weight-extrabold: 900;
-  
-    /* Custom letter spacing */
-    --leading-normal: 1.6;
-  
-    /* Custom font sizes */
-    --text-sm: 1.07rem;
-    --text-base: 1.2rem;
-    --text-xl: 1.45rem;
-    --text-2xl: 1.763rem;
-    --text-3xl: 2.153rem;
-    --text-4xl: 2.641rem;
-    --text-5xl: 3.252rem;
+  /* Custom font weights */
+  --font-weight-thin: 500;
+  --font-weight-extralight: 500;
+  --font-weight-light: 500;
+  --font-weight-normal: 500;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 900;
 
-    /* Tracking */
-    --tracking-tight: -0.01em;
+  /* Custom letter spacing */
+  --leading-normal: 1.6;
+
+  /* Custom font sizes */
+  --text-sm: 1.07rem;
+  --text-base: 1.2rem;
+  --text-xl: 1.45rem;
+  --text-2xl: 1.763rem;
+  --text-3xl: 2.153rem;
+  --text-4xl: 2.641rem;
+  --text-5xl: 3.252rem;
+
+  /* Tracking */
+  --tracking-tight: -0.01em;
 
   --color-cream: hsl(var(--cream));
   --color-background: hsl(var(--background));
@@ -175,7 +175,7 @@
     --card-foreground: 240 10% 4%; /* #09090B */
     --popover: 0 0% 100%; /* #FFFFFF */
     --popover-foreground: 240 10% 4%; /* #09090B */
-    --primary: 0 0% 0%; /* #000 */
+    --primary: 222 76% 63%; /* #5a7ae9 */
     --primary-foreground: 0 0% 100%; /* #FFFFFF */
     --secondary: 0 0% 97%; /* #F8F8F8 */
     --secondary-foreground: 0 0% 9%; /* #171717 */
@@ -203,7 +203,7 @@
     --card-foreground: 0 0% 100%; /* #FFFFFF */
     --popover: 240 10% 4%; /* #09090B */
     --popover-foreground: 0 0% 100%; /* #FFFFFF */
-    --primary: 0 0% 100%; /* #FFFFFF */
+    --primary: 222 76% 73%; /* #8399ef */
     --primary-foreground: 0 0% 0%; /* #000000 */
     --secondary: 0 0% 9%; /* #171717 */
     --secondary-foreground: 0 0% 97%; /* #F8F8F8 */
@@ -249,7 +249,7 @@ textarea {
   -moz-font-smoothing: antialiased !important;
   -webkit-font-smoothing: antialiased !important;
   font-synthesis: none !important;
-  -moz-font-feature-settings: "kern" !important;
+  -moz-font-feature-settings: 'kern' !important;
   -moz-osx-font-smoothing: grayscale !important;
   text-rendering: optimizeLegibility !important;
   -moz-font-smoothing: antialiased !important;
@@ -268,14 +268,30 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: Jsans, Lato, 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family:
+    Jsans,
+    Lato,
+    'Segoe UI',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
   font-weight: 700;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, .1) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
   line-height: var(--leading-snug);
 }
 
 body {
-  font-family: Jsans, Lato, 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family:
+    Jsans,
+    Lato,
+    'Segoe UI',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
   font-weight: 500 !important;
   text-rendering: optimizelegibility !important;
   -webkit-font-smoothing: antialiased !important;
