@@ -1,0 +1,85 @@
+---
+description: 
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+# Testing Rules
+
+## Rules:
+
+[RULE]: No formal testing framework implementation
+[EVIDENCE]: No test directories, files, or testing dependencies found in package.json
+[EXAMPLE]:
+```json
+// package.json lacks testing dependencies like jest, vitest, cypress, etc.
+"devDependencies": {
+  "@cloudflare/next-on-pages": "^1.13.12",
+  "@eslint/eslintrc": "^3.2.0",
+  "@tailwindcss/postcss": "^4.0.2",
+  "@tailwindcss/typography": "^0.5.16",
+  "@types/node": "^20.17.16",
+  "@types/react": "^19",
+  "@types/react-dom": "^19",
+  "eslint": "^9",
+  "eslint-config-next": "^15.1.6",
+  // No testing libraries
+}
+```
+
+[RULE]: TypeScript for type checking as a form of static testing
+[EVIDENCE]: TypeScript configuration in tsconfig.json and TypeScript usage throughout the codebase
+[EXAMPLE]:
+```tsx
+// Type definitions for props
+interface DashedLineProps {
+  orientation?: 'horizontal' | 'vertical';
+  className?: string;
+}
+
+export const DashedLine = ({
+  orientation = 'horizontal',
+  className,
+}: DashedLineProps) => {
+  // Implementation
+};
+```
+
+[RULE]: ESLint for code quality checks
+[EVIDENCE]: ESLint configuration in eslint.config.mjs and lint script in package.json
+[EXAMPLE]:
+```json
+// package.json
+"scripts": {
+  "lint": "next lint --fix",
+  // Other scripts
+}
+
+// eslint.config.mjs
+const eslintConfig = [
+  {
+    ignores: ['node_modules/**'],
+  },
+  ...compat.extends(
+    'next/core-web-vitals',
+    'next/typescript',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    // Other configs
+  ),
+  // Rules
+];
+```
+
+[RULE]: Manual testing through development server
+[EVIDENCE]: Development script in package.json
+[EXAMPLE]:
+```json
+// package.json
+"scripts": {
+  "dev": "next dev --turbopack",
+  "preview": "npm run pages:build && wrangler pages dev",
+  // Other scripts
+}
+```
+
+Note: This codebase does not implement formal testing patterns with testing frameworks like Jest, Vitest, React Testing Library, or Cypress. It relies on TypeScript for type safety and ESLint for code quality, which provide a form of static testing, along with manual testing through the development server.

@@ -1,0 +1,153 @@
+---
+description: 
+globs: src/**/*.tsx,src/**/*.ts
+alwaysApply: false
+---
+# Code Patterns Rules
+
+## Rules:
+
+[RULE]: Server Components by default, Client Components with 'use client' directive
+[EVIDENCE]: Found in files: src/components/layout/navbar.tsx, src/components/theme-toggle.tsx, src/components/theme-provider.tsx
+[EXAMPLE]:
+```tsx
+// src/components/theme-toggle.tsx
+'use client';
+
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
+
+import { Button } from '@/components/ui/button';
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  
+  // Component implementation
+}
+```
+
+[RULE]: Tailwind CSS for styling with `cn()` utility for conditional class merging
+[EVIDENCE]: Found in files: src/components/ui/button.tsx, src/components/dashed-line.tsx, src/components/ui/card.tsx, src/lib/utils.ts
+[EXAMPLE]:
+```tsx
+// src/components/dashed-line.tsx
+<div
+  className={cn(
+    'text-muted-foreground relative',
+    isHorizontal ? 'h-px w-full' : 'h-full w-px',
+    className,
+  )}
+>
+  {/* Component content */}
+</div>
+
+// src/lib/utils.ts
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+[RULE]: React.forwardRef for UI components with displayName property
+[EVIDENCE]: Found in files: src/components/ui/button.tsx, src/components/ui/card.tsx, src/components/ui/input.tsx
+[EXAMPLE]:
+```tsx
+// src/components/ui/card.tsx
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      'bg-card text-card-foreground rounded-xl border shadow-sm',
+      className,
+    )}
+    {...props}
+  />
+));
+Card.displayName = 'Card';
+```
+
+[RULE]: Import organization pattern with React/Next imports first, followed by third-party, then local imports
+[EVIDENCE]: Found in files: src/components/sections/about.tsx, src/components/layout/navbar.tsx, src/components/theme-toggle.tsx
+[EXAMPLE]:
+```tsx
+// src/components/theme-toggle.tsx
+// React/Next imports first
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
+
+// Local imports with '@/' paths
+import { Button } from '@/components/ui/button';
+```
+
+[RULE]: Path alias imports using '@/' prefix for absolute imports
+[EVIDENCE]: Found in files: src/app/page.tsx, src/components/sections/hero.tsx, src/components/theme-toggle.tsx
+[EXAMPLE]:
+```tsx
+// Import examples from various files
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import CreamContainer from '@/components/layout/cream-container';
+import { generateMetadata } from '@/lib/utils/metadata';
+```
+
+[RULE]: Composition pattern with smaller component functions in the same file
+[EVIDENCE]: Found in files: src/components/sections/about.tsx, src/components/ui/card.tsx
+[EXAMPLE]:
+```tsx
+// src/components/sections/about.tsx
+const About = () => {
+  return (
+    <section className="container mt-10 flex max-w-5xl flex-col-reverse gap-8 md:mt-14 md:gap-14 lg:mt-20 lg:flex-row lg:items-end">
+      {/* Component content using ImageSection and TextSection */}
+      <ImageSection images={[/*...*/]} />
+      <TextSection paragraphs={[/*...*/]} />
+    </section>
+  );
+};
+
+export default About;
+
+// Helper components defined in the same file
+export function ImageSection({ images, className }: ImageSectionProps) {
+  // Implementation
+}
+
+export function TextSection({ title, paragraphs, ctaButton }: TextSectionProps) {
+  // Implementation
+}
+```
+
+[RULE]: TypeScript interfaces for component props with React.HTMLAttributes extension
+[EVIDENCE]: Found in files: src/components/dashed-line.tsx, src/components/ui/button.tsx, src/components/layout/cream-container.tsx
+[EXAMPLE]:
+```tsx
+// src/components/ui/button.tsx
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+
+// src/components/dashed-line.tsx
+interface DashedLineProps {
+  orientation?: 'horizontal' | 'vertical';
+  className?: string;
+}
+```
+
+[RULE]: Responsive design with mobile-first Tailwind breakpoints (md:, lg:, xl:)
+[EVIDENCE]: Found in files: src/components/sections/hero.tsx, src/components/sections/about.tsx, src/components/layout/navbar.tsx
+[EXAMPLE]:
+```tsx
+// src/components/sections/hero.tsx
+<div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row lg:gap-20">
+  {/* Component content */}
+</div>
+
+// src/components/sections/about.tsx
+<section className="container mt-10 flex max-w-5xl flex-col-reverse gap-8 md:mt-14 md:gap-14 lg:mt-20 lg:flex-row lg:items-end">
+  {/* Component content */}
+</section>
+```

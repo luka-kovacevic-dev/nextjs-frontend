@@ -1,0 +1,157 @@
+---
+description: 
+globs: src/**/*.tsx,src/**/*.ts,*.config.*
+alwaysApply: false
+---
+# Best Practices Rules
+
+## Rules:
+
+[RULE]: Accessibility with aria attributes and screen reader text
+[EVIDENCE]: Found in files: src/components/ui/breadcrumb.tsx, src/components/theme-toggle.tsx, src/components/layout/navbar.tsx
+[EXAMPLE]:
+```tsx
+// src/components/ui/breadcrumb.tsx
+<div className="sr-only" aria-hidden="false">
+  <nav className="flex" aria-label="Breadcrumb">
+    <ol className="inline-flex items-center space-x-1 md:space-x-3">
+      {/* Breadcrumb items */}
+    </ol>
+  </nav>
+</div>
+
+// src/components/theme-toggle.tsx
+<Button
+  variant="outline"
+  size="icon"
+  className="size-8"
+  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+>
+  <Sun className="size-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+  <Moon className="absolute size-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+  <span className="sr-only">Toggle theme</span>
+</Button>
+```
+
+[RULE]: Image optimization with alt text for accessibility
+[EVIDENCE]: Found in files: src/components/sections/hero.tsx, src/components/sections/about.tsx
+[EXAMPLE]:
+```tsx
+// src/components/sections/hero.tsx
+<Image
+  src="/hero.webp"
+  alt="hero"
+  fill
+  className="rounded-3xl object-cover object-left-top shadow-lg max-lg:rounded-tr-none"
+/>
+
+// src/components/sections/about.tsx
+<Image
+  src={image.src}
+  alt={image.alt}
+  fill
+  className="object-cover"
+/>
+```
+
+[RULE]: Strict TypeScript configuration for enhanced safety
+[EVIDENCE]: Found in tsconfig.json
+[EXAMPLE]:
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    // Other compiler options
+  }
+}
+```
+
+[RULE]: Performance optimization in Next.js configuration
+[EVIDENCE]: Found in next.config.ts
+[EXAMPLE]:
+```ts
+// next.config.ts
+const nextConfig: NextConfig = {
+  // Disable ESLint during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  // Optimize for Cloudflare
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  poweredByHeader: false,
+  // Configuration for optimal performance
+};
+```
+
+[RULE]: Responsive design with mobile-first approach
+[EVIDENCE]: Found in files: src/components/sections/hero.tsx, src/components/layout/navbar.tsx
+[EXAMPLE]:
+```tsx
+// src/components/layout/navbar.tsx
+<Link href="/login" className="max-lg:hidden">
+  <Button variant="outline">
+    <span className="relative z-10">Login</span>
+  </Button>
+</Link>
+
+// Component that changes based on screen size
+<button
+  className="text-muted-foreground relative flex size-8 lg:hidden"
+  onClick={() => setIsMenuOpen(!isMenuOpen)}
+>
+  <span className="sr-only">Open main menu</span>
+  {/* Mobile menu button content */}
+</button>
+```
+
+[RULE]: Edge runtime for improved performance
+[EVIDENCE]: Found in files: src/app/layout.tsx, src/app/robots.ts, src/app/sitemap.ts
+[EXAMPLE]:
+```tsx
+// src/app/layout.tsx
+// Set Edge runtime for Cloudflare compatibility
+export const runtime = 'edge';
+```
+
+[RULE]: Path aliases for cleaner imports
+[EVIDENCE]: Found in tsconfig.json and usage throughout the codebase
+[EXAMPLE]:
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    // Other options
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+
+// Usage in component imports
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+```
+
+[RULE]: Script organization with npm scripts
+[EVIDENCE]: Found in package.json
+[EXAMPLE]:
+```json
+// package.json
+"scripts": {
+  "dev": "next dev --turbopack",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint --fix",
+  "pages:build": "npx @cloudflare/next-on-pages",
+  "preview": "npm run pages:build && wrangler pages dev",
+  "deploy": "npm run pages:build && wrangler pages deploy"
+}
+```

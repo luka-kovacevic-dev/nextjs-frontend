@@ -1,0 +1,205 @@
+---
+description: 
+globs: src/**/*.tsx,src/**/*.ts,*.config.*,middleware.ts,wrangler.toml
+alwaysApply: false
+---
+# Architecture Rules
+
+## Rules:
+
+[RULE]: Edge Runtime optimization for Cloudflare Pages deployment
+[EVIDENCE]: Found in files: src/app/layout.tsx, src/app/robots.ts, src/app/sitemap.ts, middleware.ts
+[EXAMPLE]:
+```tsx
+// src/app/layout.tsx
+// Set Edge runtime for Cloudflare compatibility
+export const runtime = 'edge';
+
+// middleware.ts
+// Edge middleware for Cloudflare compatibility
+export function middleware(request: NextRequest) {
+  // Implementation
+}
+```
+
+[RULE]: Cloudflare Pages deployment configuration through wrangler.toml
+[EVIDENCE]: Found in files: wrangler.toml, package.json
+[EXAMPLE]:
+```toml
+// wrangler.toml
+name = "nextjs-default-theme"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+// package.json (scripts)
+"scripts": {
+  "pages:build": "npx @cloudflare/next-on-pages",
+  "preview": "npm run pages:build && wrangler pages dev",
+  "deploy": "npm run pages:build && wrangler pages deploy"
+}
+```
+
+[RULE]: Next.js App Router architecture with centralized layout
+[EVIDENCE]: Found in files: src/app/layout.tsx, src/app/page.tsx
+[EXAMPLE]:
+```tsx
+// src/app/layout.tsx
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body className={`h-screen ${jSans.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <main>
+            <Breadcrumb />
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+[RULE]: Theme provider architecture with light/dark mode support
+[EVIDENCE]: Found in files: src/components/theme-provider.tsx, src/components/theme-toggle.tsx, src/app/globals.css
+[EXAMPLE]:
+```tsx
+// src/components/theme-provider.tsx
+'use client';
+
+import * as React from 'react';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+
+export function ThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+}
+
+// src/app/globals.css (theme variables)
+.dark {
+  --background: 240 10% 4%; /* #09090B */
+  --foreground: 0 0% 100%; /* #FFFFFF */
+  // Other dark theme variables
+}
+```
+
+[RULE]: Next.js configuration optimized for Cloudflare deployment
+[EVIDENCE]: Found in files: next.config.ts
+[EXAMPLE]:
+```tsx
+// next.config.ts
+const nextConfig: NextConfig = {
+  // Optimize for Cloudflare
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  poweredByHeader: false,
+  images: {
+    unoptimized: true,
+    // Image loader configuration options
+  },
+  // Setup Cloudflare dev platform if in development
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
+};
+
+// Setup Cloudflare dev platform if in development
+if (process.env.NODE_ENV === 'development') {
+  (async () => {
+    await setupDevPlatform();
+  })();
+}
+```
+
+[RULE]: Middleware for URL path normalization
+[EVIDENCE]: Found in files: middleware.ts
+[EXAMPLE]:
+```tsx
+// middleware.ts
+export function middleware(request: NextRequest) {
+  // Get the current pathname
+  const pathname = request.nextUrl.pathname;
+
+  // Detect trailing slashes (except for the root path)
+  if (pathname !== '/' && pathname.endsWith('/')) {
+    // Remove trailing slash
+    const newUrl = request.nextUrl.clone();
+    newUrl.pathname = pathname.slice(0, -1);
+    return NextResponse.redirect(newUrl);
+  }
+
+  return NextResponse.next();
+}
+
+// Run middleware on all pages
+export const config = {
+  matcher: [
+    // Match all paths except:
+    // - API routes (_next, /api/, /_next/, /__nextjs_original-stack-frame)
+    // - Public files (robots.txt, favicon.ico, etc)
+    '/((?!api|_next|_vercel|__nextjs_original-stack-frame|.*\\..*$).*)',
+  ],
+};
+```
+
+[RULE]: MDX integration for content pages
+[EVIDENCE]: Found in files: next.config.ts, package.json
+[EXAMPLE]:
+```tsx
+// next.config.ts
+const withMDX = createMDX({
+  // Add markdown plugins here, if needed
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
+});
+
+export default withMDX(nextConfig);
+```
+
+[RULE]: SEO optimization with metadata and sitemap generation
+[EVIDENCE]: Found in files: src/app/sitemap.ts, src/app/layout.tsx
+[EXAMPLE]:
+```tsx
+// src/app/sitemap.ts
+export default async function sitemap() {
+  // Define static routes
+  const staticRoutes = [
+    '',
+    '/about',
+    '/pricing',
+    '/faq',
+    '/contact',
+    '/privacy',
+  ];
+
+  // Create sitemap entries for static routes
+  const staticEntries = staticRoutes.map((route) => ({
+    url: `${DOMAIN}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: route === '' ? 1 : 0.8,
+  }));
+
+  return [...staticEntries];
+}
+```

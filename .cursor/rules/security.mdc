@@ -1,0 +1,118 @@
+---
+description: 
+globs: src/**/*.tsx,src/**/*.ts,middleware.ts
+alwaysApply: false
+---
+# Security Rules
+
+## Rules:
+
+[RULE]: Edge middleware for path normalization and security
+[EVIDENCE]: Found in middleware.ts
+[EXAMPLE]:
+```tsx
+// middleware.ts
+export function middleware(request: NextRequest) {
+  // Get the current pathname
+  const pathname = request.nextUrl.pathname;
+
+  // Detect trailing slashes (except for the root path)
+  if (pathname !== '/' && pathname.endsWith('/')) {
+    // Remove trailing slash
+    const newUrl = request.nextUrl.clone();
+    newUrl.pathname = pathname.slice(0, -1);
+    return NextResponse.redirect(newUrl);
+  }
+
+  return NextResponse.next();
+}
+
+// Run middleware on all pages
+export const config = {
+  matcher: [
+    // Match all paths except:
+    // - API routes (_next, /api/, /_next/, /__nextjs_original-stack-frame)
+    // - Public files (robots.txt, favicon.ico, etc)
+    '/((?!api|_next|_vercel|__nextjs_original-stack-frame|.*\\..*$).*)',
+  ],
+};
+```
+
+[RULE]: Authentication UI placeholders without actual implementation
+[EVIDENCE]: Found in src/components/layout/navbar.tsx
+[EXAMPLE]:
+```tsx
+// src/components/layout/navbar.tsx
+{/* Auth Buttons */}
+<div className="flex items-center gap-2.5">
+  <ThemeToggle />
+  <Link href="/login" className="max-lg:hidden">
+    <Button variant="outline">
+      <span className="relative z-10">Login</span>
+    </Button>
+  </Link>
+  {/* Other UI elements */}
+</div>
+```
+
+[RULE]: Content security with dangerouslySetInnerHTML only for validated data
+[EVIDENCE]: Found in src/app/page.tsx, src/app/about/page.tsx
+[EXAMPLE]:
+```tsx
+// src/app/about/page.tsx
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        getOrganizationSchema(),
+        getAboutPageSchema(
+          '/about',
+          'About Us | Mainline',
+          'Learn about our mission, team, and the story behind Mainline.',
+          breadcrumbItems,
+        ),
+      ],
+    }),
+  }}
+/>
+```
+
+[RULE]: Validation of structured data schema for SEO
+[EVIDENCE]: Found in src/lib/utils/metadata.ts
+[EXAMPLE]:
+```tsx
+// src/lib/utils/metadata.ts
+export const getOrganizationSchema = (): Organization => {
+  const schema: Organization = {
+    '@context': 'https://schema.org' as const,
+    '@type': 'Organization' as const,
+    name: DEFAULT_METADATA.title,
+    url: DEFAULT_METADATA.url,
+    logo: `${DOMAIN}/logo.svg`,
+    sameAs: [
+      'https://twitter.com/example',
+      'https://linkedin.com/company/example',
+    ],
+    description: DEFAULT_METADATA.description,
+  };
+
+  if (!validateStructuredData(schema)) {
+    throw new Error('Invalid Organization schema');
+  }
+
+  return schema;
+};
+```
+
+[RULE]: Directory structure for authentication separation (placeholder)
+[EVIDENCE]: Found in directory structure: src/app/(payload)/api/access/
+[EXAMPLE]:
+```
+src/app/(payload)/
+├── api/
+    ├── access/       # Authentication/access control (placeholder)
+```
+
+Note: This codebase appears to have minimal security implementation, with mostly placeholders for authentication and authorization features. The primary security measures are in the Edge middleware and content validation.

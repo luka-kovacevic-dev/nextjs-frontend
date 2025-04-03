@@ -1,0 +1,117 @@
+---
+description: 
+globs: src/**/*.tsx,src/**/*.ts
+alwaysApply: false
+---
+# Structure Rules
+
+## Rules:
+
+[RULE]: Next.js App Router organization with `/src/app` for page routes and layouts
+[EVIDENCE]: Found in files: src/app/page.tsx, src/app/layout.tsx, src/app/about/page.tsx
+[EXAMPLE]:
+```tsx
+// src/app/page.tsx
+export default function Home() {
+  return (
+    <>
+      <CreamContainer className="via-muted to-muted/80">
+        <Hero />
+        <Logos />
+        <Features />
+        <ResourceAllocation />
+      </CreamContainer>
+    </>
+  );
+}
+```
+
+[RULE]: Component organization in three distinct categories: UI, Sections, and Layout
+[EVIDENCE]: Found in files: src/components/ui/button.tsx, src/components/sections/hero.tsx, src/components/layout/navbar.tsx
+[EXAMPLE]:
+```
+src/components/
+├── ui/             # Reusable UI components
+│   ├── button.tsx
+│   ├── accordion.tsx
+├── sections/       # Page-specific content sections
+│   ├── hero.tsx
+│   ├── features.tsx
+├── layout/         # Site-wide layout components
+│   ├── navbar.tsx
+│   ├── footer.tsx
+```
+
+[RULE]: Edge runtime configuration for optimal Cloudflare deployment
+[EVIDENCE]: Found in files: src/app/layout.tsx
+[EXAMPLE]:
+```tsx
+// src/app/layout.tsx
+// Set Edge runtime for Cloudflare compatibility
+export const runtime = 'edge';
+```
+
+[RULE]: Utility and helper functions organization in `src/lib` directory
+[EVIDENCE]: Found in files: src/lib/utils.ts, src/lib/utils/metadata.ts, src/lib/utils/seo.ts
+[EXAMPLE]:
+```
+src/lib/
+├── imageLoader.ts
+├── types/
+│   └── schema.ts
+├── utils.ts
+├── utils/
+    ├── metadata.ts
+    ├── seo.ts
+```
+
+[RULE]: Clear metadata definition for each page using Next.js Metadata API
+[EVIDENCE]: Found in files: src/app/page.tsx, src/app/about/page.tsx, src/app/layout.tsx
+[EXAMPLE]:
+```tsx
+// src/app/about/page.tsx
+export const metadata: Metadata = generateMetadata({
+  path: '/about',
+  title: 'About Us | Mainline',
+  description: 'Learn about our mission, team, and the story behind Mainline.',
+});
+```
+
+[RULE]: Consistent page component structure with schema.org JSON-LD for SEO
+[EVIDENCE]: Found in files: src/app/page.tsx, src/app/about/page.tsx
+[EXAMPLE]:
+```tsx
+// src/app/about/page.tsx
+export default function AboutPage() {
+  const breadcrumbItems = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+  ];
+
+  return (
+    <BreadcrumbProvider items={breadcrumbItems}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [/* schema objects */],
+          }),
+        }}
+      />
+      {/* Page content */}
+    </BreadcrumbProvider>
+  );
+}
+```
+
+[RULE]: Public assets organization by feature/section in `/public` directory
+[EVIDENCE]: Found in directory structure: public/about, public/features, public/investors
+[EXAMPLE]:
+```
+public/
+├── about/         # About page images
+├── features/      # Feature section images
+├── investors/     # Investor section images
+├── testimonials/  # Testimonial section images
+```

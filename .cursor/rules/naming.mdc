@@ -1,0 +1,128 @@
+---
+description: 
+globs: src/**/*.tsx,src/**/*.ts
+alwaysApply: false
+---
+# Naming Conventions Rules
+
+## Rules:
+
+[RULE]: PascalCase for component names and component files
+[EVIDENCE]: Found in files: src/components/ui/Button.tsx, src/components/layout/CreamContainer.tsx, src/components/sections/Hero.tsx
+[EXAMPLE]:
+```tsx
+// src/components/layout/cream-container.tsx
+const CreamContainer = ({
+  children,
+  variant = 'top',
+  className,
+}: CreamContainerProps) => {
+  // Component implementation
+};
+
+export default CreamContainer;
+```
+
+[RULE]: camelCase for utility functions and non-component files
+[EVIDENCE]: Found in files: src/lib/utils.ts, src/lib/utils/metadata.ts
+[EXAMPLE]:
+```tsx
+// src/lib/utils.ts
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// src/lib/utils/metadata.ts
+export const generateMetadata = ({
+  path,
+  title,
+  description,
+  ogImage = '/og-image.jpg',
+}: {
+  // Parameters
+}) => {
+  // Function implementation
+};
+```
+
+[RULE]: Component props interfaces use ComponentNameProps naming pattern
+[EVIDENCE]: Found in files: src/components/dashed-line.tsx, src/components/ui/breadcrumb.tsx
+[EXAMPLE]:
+```tsx
+// src/components/dashed-line.tsx
+interface DashedLineProps {
+  orientation?: 'horizontal' | 'vertical';
+  className?: string;
+}
+
+export const DashedLine = ({
+  orientation = 'horizontal',
+  className,
+}: DashedLineProps) => {
+  // Component implementation
+};
+```
+
+[RULE]: Page components use [PageName]Page naming convention
+[EVIDENCE]: Found in files: src/app/about/page.tsx, src/app/faq/page.tsx
+[EXAMPLE]:
+```tsx
+// src/app/about/page.tsx
+export default function AboutPage() {
+  const breadcrumbItems = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+  ];
+  
+  return (
+    // Component implementation
+  );
+}
+```
+
+[RULE]: Schema getter functions use get[SchemaType]Schema naming convention
+[EVIDENCE]: Found in files: src/lib/utils/metadata.ts
+[EXAMPLE]:
+```tsx
+// src/lib/utils/metadata.ts
+export const getOrganizationSchema = (): Organization => {
+  const schema: Organization = {
+    '@context': 'https://schema.org' as const,
+    '@type': 'Organization' as const,
+    // Schema properties
+  };
+
+  return schema;
+};
+
+export const getWebSiteSchema = (): WebSite => ({
+  '@context': 'https://schema.org' as const,
+  '@type': 'WebSite' as const,
+  // Schema properties
+});
+```
+
+[RULE]: Kebab-case for file names in component directories
+[EVIDENCE]: Found in files: src/components/dashed-line.tsx, src/components/ui/button.tsx, src/components/layout/cream-container.tsx
+[EXAMPLE]:
+```
+src/components/
+├── dashed-line.tsx
+├── theme-provider.tsx
+├── theme-toggle.tsx
+├── ui/
+│   ├── button.tsx
+│   ├── navigation-menu.tsx
+```
+
+[RULE]: Use Next.js predefined file names for special routes (page.tsx, layout.tsx, not-found.tsx)
+[EVIDENCE]: Found in files: src/app/page.tsx, src/app/layout.tsx, src/app/not-found.tsx
+[EXAMPLE]:
+```
+src/app/
+├── page.tsx           # Homepage
+├── layout.tsx         # Root layout
+├── not-found.tsx      # 404 page
+├── about/
+│   └── page.tsx       # About page
+```
