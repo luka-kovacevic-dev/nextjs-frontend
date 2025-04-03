@@ -1,42 +1,17 @@
 ---
-description: 
-globs: src/payload/**/*,src/app/(payload)/**/*
+description: Database and content management approach for the Next.js site
+globs: src/app/**/*,src/lib/**/*,src/components/**/*
 alwaysApply: false
 ---
 # Database Rules
 
 ## Rules:
 
-[RULE]: Payload CMS integration structure (placeholder setup)
-[EVIDENCE]: Found in directory structure: src/payload with subdirectories for adapters, collections, db, globals, hooks
-[EXAMPLE]:
-```
-src/payload/
-├── adapters/    # Adapters for external services
-├── collections/ # Content type collections
-├── db/          # Database configuration
-├── globals/     # Global content types
-├── hooks/       # Lifecycle hooks
-```
-
-[RULE]: Route group separation for admin and API functionalities
-[EVIDENCE]: Found in directory structure: src/app/(payload) containing admin and api routes
-[EXAMPLE]:
-```
-src/app/(payload)/
-├── admin/            # Admin panel routes
-│   └── [[...segments]]/  # Catch-all route for admin panel
-├── api/              # API routes
-    ├── access/       # Authentication/access control
-    └── payload/      # Payload CMS API routes
-        └── [...slug]/     # Catch-all route for API endpoints
-```
-
-[RULE]: Schema.org structured data for SEO rather than database schemas
+[RULE]: Schema.org structured data for SEO
 [EVIDENCE]: Found in type definitions in src/lib/types/schema.ts and utility functions in src/lib/utils/metadata.ts
 [EXAMPLE]:
 ```tsx
-// src/lib/types/schema.ts (types imported in metadata.ts)
+// src/lib/types/schema.ts
 import {
   AboutPage,
   BreadcrumbList,
@@ -81,7 +56,7 @@ const features = [
 ];
 ```
 
-[RULE]: Sitemap generation using static route definitions without database integration
+[RULE]: Sitemap generation using static route definitions
 [EVIDENCE]: Found in src/app/sitemap.ts
 [EXAMPLE]:
 ```tsx
@@ -109,4 +84,34 @@ export default async function sitemap() {
 }
 ```
 
-Note: This codebase appears to have placeholder structures for Payload CMS integration, but the actual database implementation is either minimal or not yet implemented. The site primarily uses static data defined directly in the components rather than fetching from a database.
+[RULE]: Content management through static files
+[EVIDENCE]: MDX is used for content-heavy pages like privacy policy
+[EXAMPLE]:
+```
+// MDX content in src/app/privacy/privacy.mdx
+// Imported and rendered in src/app/privacy/page.tsx
+```
+
+[RULE]: Static asset management for images and resources
+[EVIDENCE]: Images are stored in the public directory and loaded using Next.js Image component with a custom loader
+[EXAMPLE]:
+```tsx
+// src/lib/imageLoader.ts
+export const imageLoader = ({ src, width }: ImageLoaderProps): string => {
+  return `${src}?w=${width}`;
+};
+
+// Usage in components with next/image
+import Image from 'next/image';
+import { imageLoader } from '@/lib/imageLoader';
+
+<Image
+  loader={imageLoader}
+  src="/path/to/image.webp"
+  alt="Description"
+  width={400}
+  height={300}
+/>
+```
+
+Note: This codebase is built as a static Next.js site without database integration. All content is managed through static files, components with hardcoded data, and MDX for content-heavy pages. There are no database connections or CMS integrations implemented.
