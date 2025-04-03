@@ -7,6 +7,21 @@ alwaysApply: false
 
 ## Rules:
 
+[RULE]: UI Component Installation using shadcn/ui CLI
+[EVIDENCE]: Found in components.json configuration and UI component structure
+[EXAMPLE]:
+```bash
+# Install new UI components using the shadcn/ui CLI
+# Run from project root directory
+npx shadcn-ui@latest add <component-name> --force
+
+# Example:
+npx shadcn-ui@latest add badge --force
+npx shadcn-ui@latest add separator --force
+
+# Note: --force flag is required for React 19 compatibility
+```
+
 [RULE]: Server Components by default, Client Components with 'use client' directive
 [EVIDENCE]: Found in files: src/components/layout/navbar.tsx, src/components/theme-toggle.tsx, src/components/theme-provider.tsx
 [EXAMPLE]:

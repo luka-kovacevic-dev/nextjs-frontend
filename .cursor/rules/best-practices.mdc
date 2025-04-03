@@ -7,6 +7,24 @@ alwaysApply: false
 
 ## Rules:
 
+[RULE]: UI Component Installation and Management
+[EVIDENCE]: Found in components.json and UI component usage patterns
+[EXAMPLE]:
+```bash
+# Best Practices for Adding UI Components:
+
+# 1. Always use shadcn/ui CLI for installation
+npx shadcn-ui@latest add <component-name> --force
+
+# 2. Run from project root directory
+cd /Users/rj/Desktop/GIT-REPOS/SITE_deploia.com
+
+# 3. Use --force flag for React 19 compatibility
+# 4. Never manually create or copy UI component files
+# 5. Let the CLI handle dependencies and Radix UI primitives
+# 6. Check components.json for configuration
+```
+
 [RULE]: Accessibility with aria attributes and screen reader text
 [EVIDENCE]: Found in files: src/components/ui/breadcrumb.tsx, src/components/theme-toggle.tsx, src/components/layout/navbar.tsx
 [EXAMPLE]:
