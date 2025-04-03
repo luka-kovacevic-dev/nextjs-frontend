@@ -1,7 +1,7 @@
 {
   "name": "ja-theme",
   "version": "1.1.0",
-  "author": "Jonah and Associates",
+  "author": "Jonah and Associates Pty Ltd",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

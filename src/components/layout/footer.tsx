@@ -1,5 +1,7 @@
 import Link from 'next/link';
+
 import { ArrowUpRight, MousePointerClick } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 
 export function Footer() {
@@ -71,6 +73,7 @@ export function Footer() {
             <li key={item.name}>
               <Link
                 href={item.href}
+                rel="nofollow noopener noreferrer"
                 className="flex items-center gap-0.5 font-medium transition-opacity hover:opacity-75"
               >
                 {item.name} <ArrowUpRight className="size-4" />

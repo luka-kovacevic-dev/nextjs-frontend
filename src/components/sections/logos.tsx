@@ -131,7 +131,13 @@ const LogoRow = ({ companies, gridClassName, direction }: LogoRowProps) => {
           )}
         >
           {companies.map((company, index) => (
-            <Link href={company.href} target="_blank" key={index}>
+            <Link
+              href={company.href}
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              key={index}
+              className="mx-8 inline-block transition-opacity hover:opacity-70"
+            >
               <Image
                 src={company.logo}
                 alt={`${company.name} logo`}

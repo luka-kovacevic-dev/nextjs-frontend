@@ -20,7 +20,17 @@ import {
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 
-const ITEMS = [
+interface NavigationItem {
+  label: string;
+  href: string;
+  dropdownItems?: Array<{
+    title: string;
+    href: string;
+    description: string;
+  }>;
+}
+
+const ITEMS: NavigationItem[] = [
   {
     label: 'Features',
     href: '#features',

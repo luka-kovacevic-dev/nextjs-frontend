@@ -41,18 +41,20 @@ export default function Hero() {
     <section className="py-28 lg:py-32 lg:pt-44">
       <div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row lg:gap-20">
         {/* Left side - Main content */}
-        <div className="flex-1">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl">
+        <div className="flex-1 lg:w-3/5">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl md:whitespace-nowrap lg:text-5xl">
             Mainline your product.
           </h1>
 
-          <p className="text-muted-foreground mt-5 font-sans text-2xl font-medium md:text-3xl lg:text-4xl">
+          <p className="text-muted-foreground leading- mt-5 text-lg leading-[1.5] font-medium md:text-xl lg:text-2xl">
             Mainline is the fit-for-purpose tool for planning and building
             modern software products.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Button>Get started</Button>
+            <Link href="/signup">
+              <Button>Get started</Button>
+            </Link>
             <Link href="#">
               <Button
                 variant="outline"
@@ -83,7 +85,9 @@ export default function Hero() {
               <div key={feature.title} className="flex gap-2.5 lg:gap-5">
                 <Icon className="mt-1 size-4 shrink-0 lg:size-5" />
                 <div>
-                  <h2 className="font-inter font-semibold">{feature.title}</h2>
+                  <h2 className="font-inter mb-1 font-semibold">
+                    {feature.title}
+                  </h2>
                   <p className="text-muted-foreground max-w-76 text-sm">
                     {feature.description}
                   </p>

@@ -30,6 +30,7 @@ const contactInfo = [
           <Link
             href="mailto:careers@streamline.com"
             className="text-muted-foreground hover:text-foreground"
+            rel="nofollow noopener noreferrer"
           >
             careers@streamline.com
           </Link>
@@ -41,13 +42,25 @@ const contactInfo = [
     title: 'Follow us',
     content: (
       <div className="mt-3 flex gap-6 lg:gap-10">
-        <Link href="#" className="text-muted-foreground hover:text-foreground">
+        <Link
+          href="#"
+          className="text-muted-foreground hover:text-foreground"
+          rel="nofollow noopener noreferrer"
+        >
           <Facebook className="size-5" />
         </Link>
-        <Link href="#" className="text-muted-foreground hover:text-foreground">
+        <Link
+          href="#"
+          className="text-muted-foreground hover:text-foreground"
+          rel="nofollow noopener noreferrer"
+        >
           <Twitter className="size-5" />
         </Link>
-        <Link href="#" className="text-muted-foreground hover:text-foreground">
+        <Link
+          href="#"
+          className="text-muted-foreground hover:text-foreground"
+          rel="nofollow noopener noreferrer"
+        >
           <Linkedin className="size-5" />
         </Link>
       </div>
