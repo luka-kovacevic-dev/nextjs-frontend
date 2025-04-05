@@ -40,6 +40,7 @@ export const metadata: Metadata = {
   },
   description:
     'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
+  metadataBase: new URL('https://domain.com'),
   keywords: [
     'Next.js',
     'React',
@@ -109,7 +110,7 @@ export default function RootLayout({
         >
           <Navbar />
           <main>
-          <Breadcrumb />
+            <Breadcrumb />
             {children}
           </main>
           <Footer />
