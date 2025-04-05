@@ -226,7 +226,7 @@
 
   /* Apply inversion to SVG images in dark mode */
   .dark img[src$='.svg'] {
-    filter: invert(1) brightness(0.9);
+    filter: invert(1) brightness(0.9) hue-rotate(5deg);
   }
 }
 

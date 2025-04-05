@@ -10,8 +10,6 @@ import {
   getWebPageSchema,
 } from '@/lib/utils/metadata';
 
-// Remove Edge runtime for better SEO with iframe-based contact form
-
 export const metadata: Metadata = generateMetadata({
   path: '/contact',
   title: 'Contact Us | Mainline',

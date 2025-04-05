@@ -8,9 +8,6 @@ import { BreadcrumbProvider } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { generateMetadata, getWebPageSchema } from '@/lib/utils/metadata';
 
-// Set Edge runtime for Cloudflare compatibility
-export const runtime = 'edge';
-
 export const metadata: Metadata = generateMetadata({
   path: '/not-found',
   title: 'Page Not Found | 404',

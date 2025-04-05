@@ -10,8 +10,6 @@ import {
   getWebPageSchema,
 } from '@/lib/utils/metadata';
 
-// Remove Edge runtime for better SEO with static generation
-
 export const metadata: Metadata = generateMetadata({
   path: '/privacy',
   title: 'Privacy Policy | Mainline',

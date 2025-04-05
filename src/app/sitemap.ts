@@ -1,7 +1,7 @@
 // Set Edge runtime for Cloudflare compatibility
 export const runtime = 'edge';
 
-const DOMAIN = 'https://deploia.com';
+const DOMAIN = 'https://domain.com';
 
 export default async function sitemap() {
   // Define static routes

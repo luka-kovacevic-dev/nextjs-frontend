@@ -15,8 +15,6 @@ import {
   getWebSiteSchema,
 } from '@/lib/utils/metadata';
 
-// Remove Edge runtime for better SEO with static generation
-
 export const metadata: Metadata = generateMetadata({
   path: '/',
   title: DEFAULT_METADATA.title,

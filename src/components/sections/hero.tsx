@@ -104,7 +104,7 @@ export default function Hero() {
             src="/hero.webp"
             alt="hero"
             fill
-            className="rounded-3xl object-cover object-left-top shadow-lg max-lg:rounded-tr-none"
+            className="rounded object-cover object-left-top shadow-lg max-lg:rounded-tr-none"
           />
         </div>
       </div>

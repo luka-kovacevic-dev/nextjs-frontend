@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 
 import { Footer } from '@/components/layout/footer';
 import Navbar from '@/components/layout/navbar';
+import { MatomoAnalytics } from '@/components/matomo-analytics';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import './globals.css';
@@ -108,6 +109,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <MatomoAnalytics />
           <Navbar />
           <main>
             <Breadcrumb />
