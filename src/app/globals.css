@@ -24,8 +24,8 @@
   --leading-normal: 1.6;
 
   /* Custom font sizes */
-  --text-sm: 1.07rem;
-  --text-base: 1.2rem;
+  --text-sm: 1rem;
+  --text-base: 1.12rem;
   --text-xl: 1.45rem;
   --text-2xl: 1.763rem;
   --text-3xl: 2.153rem;
@@ -156,6 +156,11 @@
   .font-inter {
     font-family: var(--font-jsans), sans-serif;
   }
+
+  /* Themed link styles that adapt to light/dark mode */
+  .themed-link {
+    @apply text-foreground hover:text-foreground/80 underline underline-offset-4;
+  }
 }
 
 @layer components {
@@ -217,6 +222,11 @@
     --input: 0 0% 20%; /* #333333 */
     --ring: 0 0% 100%; /* #FFFFFF */
     --cream: 220 30% 20%; /* #1e2433 - dark blue variant */
+  }
+
+  /* Apply inversion to SVG images in dark mode */
+  .dark img[src$='.svg'] {
+    filter: invert(1) brightness(0.9);
   }
 }
 

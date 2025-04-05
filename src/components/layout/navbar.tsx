@@ -174,7 +174,7 @@ const Navbar = () => {
                       openDropdown === link.label ? null : link.label,
                     )
                   }
-                  className="text-primary flex w-full items-center justify-between text-base font-bold"
+                  className="text-foreground flex w-full items-center justify-between text-base font-bold"
                 >
                   {link.label}
                   <ChevronRight
@@ -204,7 +204,7 @@ const Navbar = () => {
                         }}
                       >
                         <div className="transition-transform duration-200 group-hover:translate-x-1">
-                          <div className="text-primary font-bold">
+                          <div className="text-foreground font-bold">
                             {item.title}
                           </div>
 
@@ -222,7 +222,7 @@ const Navbar = () => {
                 key={link.label}
                 href={link.href}
                 className={cn(
-                  'text-primary hover:text-primary/80 py-4 text-base font-bold transition-colors first:pt-0 last:pb-0',
+                  'text-foreground hover:text-foreground/80 py-4 text-base font-bold transition-colors first:pt-0 last:pb-0',
                   pathname === link.href &&
                     'text-muted-foreground underline underline-offset-4',
                 )}

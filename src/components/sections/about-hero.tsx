@@ -61,7 +61,7 @@ export function AboutHero() {
             className="absolute top-0 lg:hidden"
           />
           {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col gap-1">
+            <div key={stat.label} className="flex flex-col gap-1 pb-5">
               <div className="font-sans text-4xl font-medium tracking-wide md:text-5xl">
                 {stat.value}
               </div>

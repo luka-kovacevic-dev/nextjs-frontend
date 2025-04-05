@@ -10,52 +10,66 @@ import { cn } from '@/lib/utils';
 
 const categories = [
   {
-    title: 'Support',
+    title: 'Pre-purchase',
     questions: [
       {
-        question: 'How do I update my account without breaking my laptop?',
+        question: 'Do I need to buy a MailWizz license?',
         answer:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus voluptates deserunt officia temporibus dignissimos.',
+          'Yes. We request you to purchase it directly from the official website through Envato Marketplace. Alternatively, you can bring in your existing license.',
+        link: 'https://codecanyon.net/item/mailwizz-email-marketing-application/6122150',
       },
       {
-        question: 'Is support free, or do I need to Google everything?',
+        question: 'Do you provide an outgoing SMTP relay?',
         answer:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus voluptates deserunt officia temporibus dignissimos.',
+          "No. We don't provide you with an outgoing SMTP relay with our basic hosting packages. With that said, MailWizz supports a number of services that you can configure (Eg. Amazon SES, SendGrid, etc.). If you are signing up for our full-service email marketing packages, then YES, we provide you with an outgoing SMTP relay and look after every aspect of your email delivery.",
       },
       {
-        question: 'Are you going to be subsumed by AI?',
+        question: 'Where can I find my MailWizz license key?',
         answer:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus voluptates deserunt officia temporibus dignissimos.',
+          'You can find your MailWizz license key in your Envato Marketplace account. It is referred to as an "Item Purchase Code". See this guide for more information.',
+        link: 'https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code',
+      },
+      {
+        question: 'Can you install MailWizz on my own server?',
+        answer:
+          'No, but the MailWizz team offers installation services for a fee. You can find out more on their website.',
+        link: 'https://mailwizz.com',
+      },
+      {
+        question:
+          'How many sending domains/lists/contacts/delivery servers are allowed?',
+        answer:
+          "Unlimited. We don't restrict you on anything. We apply fair usage policy. You can have as many delivery servers, domains, contacts, and lists as possible.",
       },
     ],
   },
   {
-    title: 'Your account',
+    title: 'Account-related',
     questions: [
+      {
+        question: 'Do I get access to MailWizz backend admin panel?',
+        answer:
+          'Yes, you get full access to the MailWizz backend administration panel. We only disable access to certain pages for security reasons. These pages are not crucial for making the most out of MailWizz.',
+      },
       {
         question: 'Is support free, or do I need to Google everything?',
         answer:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus voluptates deserunt officia temporibus dignissimos.',
-      },
-      {
-        question: 'Are you going to be subsumed by AI?',
-        answer:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus voluptates deserunt officia temporibus dignissimos.',
+          'Our support is free. We have 24/7 live chat support available for all of our customers. For basic hosting packages, we only support you with issues relating to the hosting. For full-service email marketing packages, we support you with issues relating to the email marketing.',
       },
     ],
   },
   {
-    title: 'Other questions',
+    title: 'Other',
     questions: [
       {
-        question: 'Is support free, or do I need to Google everything?',
+        question: 'Do you provide email deliverability consulting?',
         answer:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus voluptates deserunt officia temporibus dignissimos.',
+          'Yes and no. We provide it for a fee. You can reach out to us and ask us for a quote. For full-service email marketing packages, we provide you with email deliverability consulting as part of the package.',
       },
       {
-        question: 'Are you going to be subsumed by AI?',
+        question: 'Do you restrict on the types of emails we could send?',
         answer:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus voluptates deserunt officia temporibus dignissimos.',
+          'No but we are serious about spam. If we notice you are sending spam, we will immediately terminate your account. We also do not service businesses involved in adult content, gambling, payday loans, multi-level marketing, tobacco, cannabis, vaping, firearms, or those that promote illegal activities.',
       },
     ],
   },
@@ -77,16 +91,16 @@ export const FAQ = ({
           <div className="space-y-4">
             {headerTag === 'h1' ? (
               <h1 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
-                Got Questions?
+                Got questions?
               </h1>
             ) : (
               <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
-                Got Questions?
+                Got questions?
               </h2>
             )}
             <p className="text-muted-foreground max-w-md leading-normal font-medium lg:mx-auto">
               If you can't find what you're looking for,{' '}
-              <Link href="/contact" className="underline underline-offset-4">
+              <Link href="/contact" className="themed-link">
                 get in touch
               </Link>
               .
@@ -105,6 +119,19 @@ export const FAQ = ({
                       <AccordionTrigger>{item.question}</AccordionTrigger>
                       <AccordionContent className="text-muted-foreground">
                         {item.answer}
+                        {item.link && (
+                          <>
+                            {' '}
+                            <Link
+                              href={item.link}
+                              target="_blank"
+                              rel="nofollow noopener noreferrer"
+                              className="themed-link"
+                            >
+                              See more
+                            </Link>
+                          </>
+                        )}
                       </AccordionContent>
                     </AccordionItem>
                   ))}
