@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import axios from "axios";
@@ -73,7 +75,7 @@ export const Testimonials = ({
         const response = await axios.get<Items[]>(
           "https://worker-proxy-server.lukakovacevic0100.workers.dev/api/posts/luka/testimonials"
         );
-        
+
         setItems(response.data);
       } catch (error) {
         console.error("Error fetching testimonials:", error);
