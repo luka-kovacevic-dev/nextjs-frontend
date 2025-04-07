@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import axios from "axios";
 
 import { ArrowRight } from 'lucide-react';
 
@@ -15,64 +17,44 @@ import {
 } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 
-const items = [
-  {
-    quote: "We're misusing Mainline as a CRM and it still works!",
-    author: 'Amy Chase',
-    role: 'PM',
-    company: 'Mercury Finance',
-    image: '/testimonials/amy-chase.webp',
-  },
-  {
-    quote: 'I was able to replace 80% of my team with Mainline bots.',
-    author: 'Jonas Kotara',
-    role: 'Lead Engineer',
-    company: 'Mercury Finance',
-    image: '/testimonials/jonas-kotara.webp',
-  },
-  {
-    quote: 'Founder Mode is hard enough without having a really nice PM app.',
-    author: 'Kevin Yam',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kevin-yam.webp',
-  },
-  {
-    quote: 'I can use the tool as a substitute from my PM.',
-    author: 'Kundo Marta',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kundo-marta.webp',
-  },
-  {
-    quote: "We're misusing Mainline as a CRM and it still works!",
-    author: 'Amy Chase',
-    role: 'PM',
-    company: 'Mercury Finance',
-    image: '/testimonials/amy-chase.webp',
-  },
-  {
-    quote: 'I was able to replace 80% of my team with Mainline bots.',
-    author: 'Jonas Kotara',
-    role: 'Lead Engineer',
-    company: 'Mercury Finance',
-    image: '/testimonials/jonas-kotara.webp',
-  },
-  {
-    quote: 'Founder Mode is hard enough without having a really nice PM app.',
-    author: 'Kevin Yam',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kevin-yam.webp',
-  },
-  {
-    quote: 'I can use the tool as a substitute from my PM.',
-    author: 'Kundo Marta',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kundo-marta.webp',
-  },
-];
+// const items = [
+//   {
+//     quote: "We're misusing Mainline as a CRM and it still works!",
+//     author: 'Amy Chase',
+//     role: 'PM',
+//     company: 'Mercury Finance',
+//     image: '/testimonials/amy-chase.webp',
+//   },
+//   {
+//     quote: 'I was able to replace 80% of my team with Mainline bots.',
+//     author: 'Jonas Kotara',
+//     role: 'Lead Engineer',
+//     company: 'Mercury Finance',
+//     image: '/testimonials/jonas-kotara.webp',
+//   },
+//   {
+//     quote: 'Founder Mode is hard enough without having a really nice PM app.',
+//     author: 'Kevin Yam',
+//     role: 'Founder',
+//     company: 'Mercury Finance',
+//     image: '/testimonials/kevin-yam.webp',
+//   },
+//   {
+//     quote: 'I can use the tool as a substitute from my PM.',
+//     author: 'Kundo Marta',
+//     role: 'Founder',
+//     company: 'Mercury Finance',
+//     image: '/testimonials/kundo-marta.webp',
+//   },
+// ];
+
+interface Items{
+  quote: string,
+  author: string,
+  role: string,
+  company: string,
+  image: string,
+}
 
 export const Testimonials = ({
   className,
@@ -81,6 +63,26 @@ export const Testimonials = ({
   className?: string;
   dashedLineClassName?: string;
 }) => {
+
+  const [items, setItems] = useState<Items[]>([]);
+
+  useEffect(() => {
+
+    const fetchTestimonials = async () => {
+      try {
+        const response = await axios.get<Items[]>(
+          "https://worker-proxy-server.lukakovacevic0100.workers.dev/api/posts/luka/testimonials"
+        );
+        
+        setItems(response.data);
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      }
+    };
+
+    fetchTestimonials();
+  }, [])
+
   return (
     <>
       <section className={cn('py-28 lg:py-32', className)}>
